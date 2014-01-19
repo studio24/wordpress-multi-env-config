@@ -70,10 +70,10 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 
 // Define WordPress Site URLs
 if (!defined('WP_SITEURL')) {
-    define('WP_SITEURL', $protocol . rtrim('/', $hostname));
+    define('WP_SITEURL', $protocol . rtrim($hostname, '/'));
 }
 if (!defined('WP_HOME')) {
-    define('WP_HOME', $protocol . rtrim('/', $hostname));
+    define('WP_HOME', $protocol . rtrim($hostname, '/'));
 }
 
 // Clean up
