@@ -39,11 +39,7 @@ This is commonly done via Apache in your virtual host declaration:
 
     SetEnv WP_ENV production
     
-Or in Nginx in your server declaration:
-
-    env WP_ENV=production
-    
-If you use another webserver consult your webserver documentation.
+If you don't use Apache consult your webserver documentation.
 
 #### Server hostname
 
@@ -69,7 +65,7 @@ For example to set *www.mywebsite.com* as the live production environment,  *sta
 You'll notice the live website URL is also the default case.
 
 ## Installing
-1. First make a backup of your existing `wp-config.php` file.
+1. First make a backup of your existing `wp-config.php` file
 2. Copy the following files to your WordPress installation:
 
         wp-config.env.php
