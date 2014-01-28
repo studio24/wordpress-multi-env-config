@@ -59,40 +59,28 @@ For example to set *www.mywebsite.com* as the live production environment,  *sta
         case 'www.mywebsite.com':
         default: 
             define('WP_ENV', 'production');
-            break;
     }
         
 You'll notice the live website URL is also the default case.
 
 ## Installing
-1. First make a backup of your existing `wp-config.php` file
+1. First make a backup of your existing `wp-config.php` file.
 2. Copy the following files to your WordPress installation:
 
         wp-config.env.php
         wp-config.default.php
         wp-config.php
         
-3. Either set the website environments via `wp-config.env.php` or via your webserver configuration.
-4. Create one `wp-config.{environment}.php` file for each environment. You can use the sample files provided in this repository.
+3. Either set the website environments you wish to support via `wp-config.env.php` or via your webserver configuration.
+4. Create one `wp-config.{environment}.php` file for each environment. You can use the sample files provided in this repository:
 
         wp-config.development.php
         wp-config.production.php
         wp-config.staging.php
 
 5. Review your backup `wp-config.php` file and copy config settings to either the default config file or the environment config files as appropriate.
-6. Update config settings across your config files as appropriate, for example database settings are usually different between environments
-7. Update the authentication unique keys and salts in `wp-config.default.php`
+6. Update config settings across your config files as appropriate, for example database settings are usually different between environments.
+7. Remember to update the authentication unique keys and salts in `wp-config.default.php`
 
-You should now be able to load up the website in each different environment and everything should work just fine! It should now be safe to delete your backup `wp-config.php` file.
-
-### Possible issues
-
-#### Synching data and uploaded files
-Remember when moving between different environments you may need to sync your database content and uploaded files (found in `wp_content/uploads`). Be careful in the direction you do this.  
-
-* When initially developing your site you'll likely sync from development to staging.
-* When preparing for launch (i.e. entering content) the staging database will likely be most up-to-date so sync from staging.
-* On launching the site you'll need to sync from staging to live.
-* After launch the live site should be the master. If you need content to work on updates you'll need to sync from live to development or staging.
-
+You should now be able to load up the website in each different environment and everything should work just fine! It should now be safe to delete your backup *wp-config.php* file.
 
