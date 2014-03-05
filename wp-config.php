@@ -68,7 +68,13 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
     $protocol = 'http://';
 }
 
-// Define WordPress Site URLs
+// Load default config
+include 'wp-config.default.php';
+
+// Load config file for current environment
+include 'wp-config.' . WP_ENV . '.php';
+
+// Define WordPress Site URLs if not already set in config files
 if (!defined('WP_SITEURL')) {
     define('WP_SITEURL', $protocol . rtrim($hostname, '/'));
 }
@@ -78,12 +84,6 @@ if (!defined('WP_HOME')) {
 
 // Clean up
 unset($hostname, $protocol);
-
-// Load default config
-include 'wp-config.default.php';
-
-// Load config file for current environment
-include 'wp-config.' . WP_ENV . '.php';
 
 /** End of WordPress Multi-Environment Config **/
 
