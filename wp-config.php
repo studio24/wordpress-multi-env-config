@@ -49,8 +49,8 @@ if (getenv('WP_ENV') !== false) {
 } 
 
 // Define site host
-if (isset($_SERVER['X_FORWARDED_HOST']) && !empty($_SERVER['X_FORWARDED_HOST'])) {
-    $hostname = $_SERVER['X_FORWARDED_HOST'];
+if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+    $hostname = $_SERVER['HTTP_X_FORWARDED_HOST'];
 } else {
     $hostname = $_SERVER['HTTP_HOST'];
 }
@@ -62,7 +62,8 @@ if (!defined('WP_ENV')) {
 }
 
 // Are we in SSL mode?
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ||
+    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
     $protocol = 'https://';
 } else {
     $protocol = 'http://';
