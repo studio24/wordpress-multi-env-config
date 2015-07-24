@@ -47,13 +47,13 @@ You can also edit the `wp-config.env.php` file and define what hostnames are use
 
 Just edit the PHP switch statement and enter the correct hostname (without http:// or the trailing slash) as the case value. You can then define which environment is used for that hostname via the `WP_ENV` constant. 
 
-For example to set *www.mywebsite.com* as the live production environment,  *stage.mywebsite.com* as the staging environment and *mywebsite.dev* as the local development environment the code is: 
+For example to set *www.mywebsite.com* as the live production environment,  *staging.mywebsite.com* as the staging environment and *mywebsite.dev* as the local development environment the code is: 
 
     switch ($hostname) {
         case 'mywebsite.dev':
             define('WP_ENV', 'development');
             break;
-        case 'stage.mywebsite.com':
+        case 'staging.mywebsite.com':
             define('WP_ENV', 'staging');
             break;
         case 'www.mywebsite.com':
@@ -63,12 +63,12 @@ For example to set *www.mywebsite.com* as the live production environment,  *sta
         
 You'll notice the live website URL is also the default case.
 
-If you use localhost for your local test website, just set the development hostname case to 'localhost'.
+If you use localhost for your local test website, just set the development hostname case to `localhost`.
 
 ### WP-CLI argument
-If you're using WP-CLI you can specify your environment via the --env argument. Usage is:
+If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env argument. Usage is:
 
-    --env=<argument>
+    --env=<environment>
 
 For example:
 
