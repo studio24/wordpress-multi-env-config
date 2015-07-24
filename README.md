@@ -66,7 +66,7 @@ You'll notice the live website URL is also the default case.
 If you use localhost for your local test website, just set the development hostname case to `localhost`.
 
 ### WP-CLI argument
-If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env argument. Usage is:
+If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env` argument. Usage is:
 
     --env=<environment>
 
