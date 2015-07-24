@@ -98,6 +98,11 @@ if (!defined('WP_HOME')) {
     define('WP_HOME', $protocol . rtrim($hostname, '/'));
 }
 
+// Define W3 Total Cache hostname
+if (defined('WP_CACHE')) {
+    define('COOKIE_DOMAIN', $hostname);
+}
+
 // Clean up
 unset($hostname, $protocol);
 
