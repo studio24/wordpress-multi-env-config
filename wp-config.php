@@ -38,9 +38,15 @@
  * Default settings that are common to all environments can exist in wp-config.default.php
  * 
  * @package    Studio 24 WordPress Multi-Environment Config
- * @version    1.0
+ * @version    1.0.1
  * @author     Studio 24 Ltd  <info@studio24.net>
  */
+
+
+// Absolute path to the WordPress directory
+if (!defined('ABSPATH')) {
+    define('ABSPATH', dirname(__FILE__) . '/');
+}
 
 // Try environment variable 'WP_ENV'
 if (getenv('WP_ENV') !== false) {
@@ -54,11 +60,20 @@ if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDE
 } else {
     $hostname = $_SERVER['HTTP_HOST'];
 }
-    
+
+// If WordPress has been bootstrapped via WP-CLI detect environment from --env=<environment> argument
+if (PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
+    foreach ($argv as $arg) {
+        if (preg_match('/--env=(.+)/', $arg, $m)) {
+            define('WP_ENV', $m[1]);
+        }
+    }
+}
+
 // Try server hostname
 if (!defined('WP_ENV')) {
     // Set environment based on hostname
-    include 'wp-config.env.php';
+    include ABSPATH . '/wp-config.env.php';
 }
 
 // Are we in SSL mode?
@@ -70,10 +85,10 @@ if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ||
 }
 
 // Load default config
-include 'wp-config.default.php';
+include ABSPATH . '/wp-config.default.php';
 
 // Load config file for current environment
-include 'wp-config.' . WP_ENV . '.php';
+include ABSPATH . '/wp-config.' . WP_ENV . '.php';
 
 // Define WordPress Site URLs if not already set in config files
 if (!defined('WP_SITEURL')) {
@@ -90,10 +105,6 @@ unset($hostname, $protocol);
 
 
 /* That's all, stop editing! Happy blogging. */
-
-/** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
 
 /** Sets up WordPress vars and included files. */
 require_once(ABSPATH . 'wp-settings.php');
