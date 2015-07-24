@@ -14,7 +14,16 @@
  */
 
 
-// Set environment based on hostname
+/*
+ * Set environment based on hostname
+ *
+ * If you just use localhost for your local test environment then in place of:
+ *   case 'domain.dev':
+ *
+ * Just use:
+ *   case 'localhost':
+ *
+ */
 switch ($hostname) {
     case 'domain.dev':
         define('WP_ENV', 'development');
