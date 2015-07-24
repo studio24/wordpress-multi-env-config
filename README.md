@@ -29,7 +29,7 @@ Common environment values we use at Studio 24 include:
 
 ### Setting the environment
 
-The current environment is detected in one of two ways:
+The current environment is detected in one of three ways:
 
 #### Environment variable
 
@@ -47,7 +47,7 @@ You can also edit the `wp-config.env.php` file and define what hostnames are use
 
 Just edit the PHP switch statement and enter the correct hostname (without http:// or the trailing slash) as the case value. You can then define which environment is used for that hostname via the `WP_ENV` constant. 
 
-For example to set *www.mywebsite.com* as the live production environment,  *stage.mywebsite.com* as the staging environment and *mywebsite.dev* as the local development environment the code is:
+For example to set *www.mywebsite.com* as the live production environment,  *stage.mywebsite.com* as the staging environment and *mywebsite.dev* as the local development environment the code is: 
 
     switch ($hostname) {
         case 'mywebsite.dev':
@@ -62,6 +62,17 @@ For example to set *www.mywebsite.com* as the live production environment,  *sta
     }
         
 You'll notice the live website URL is also the default case.
+
+If you use localhost for your local test website, just set the development hostname case to 'localhost'.
+
+### WP-CLI argument
+If you're using WP-CLI you can specify your environment via the --env argument. Usage is:
+
+    --env=<argument>
+
+For example:
+
+    wp help --env=development    
 
 ## Installing
 1. First make a backup of your existing `wp-config.php` file.
