@@ -68,6 +68,7 @@ if (PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
             define('WP_ENV', $m[1]);
         }
     }
+	$hostname = "localhost";
 }
 
 // Try server hostname
