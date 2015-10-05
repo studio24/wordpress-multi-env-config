@@ -57,3 +57,8 @@ $table_prefix  = 'wp_';
  * language support.
  */
 define('WPLANG', '');
+
+/**
+ * Increase memory limit. 
+ */
+define('WP_MEMORY_LIMIT', '64M');
