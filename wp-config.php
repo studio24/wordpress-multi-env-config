@@ -71,6 +71,9 @@ if (PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
 	$hostname = "localhost";
 }
 
+// Filter
+$hostname = filter_var($hostname, FILTER_SANITIZE_STRING);
+
 // Try server hostname
 if (!defined('WP_ENV')) {
     // Set environment based on hostname
