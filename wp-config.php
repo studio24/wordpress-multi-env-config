@@ -68,7 +68,11 @@ if (PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
             define('WP_ENV', $m[1]);
         }
     }
+	$hostname = "localhost";
 }
+
+// Filter
+$hostname = filter_var($hostname, FILTER_SANITIZE_STRING);
 
 // Try server hostname
 if (!defined('WP_ENV')) {
@@ -96,6 +100,11 @@ if (!defined('WP_SITEURL')) {
 }
 if (!defined('WP_HOME')) {
     define('WP_HOME', $protocol . rtrim($hostname, '/'));
+}
+
+// Define W3 Total Cache hostname
+if (defined('WP_CACHE')) {
+    define('COOKIE_DOMAIN', $hostname);
 }
 
 // Clean up
