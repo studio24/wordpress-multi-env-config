@@ -69,7 +69,7 @@ if (!defined('WP_ENV_SSL')) {
     define('WP_ENV_SSL', false);
 }
 $protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
-$path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') . '/' : '/';
+$path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
 
 if (!defined('WP_SITEURL')) {
     define('WP_SITEURL', $protocol . trim($hostname, '/') . $path);
