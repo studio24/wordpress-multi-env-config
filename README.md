@@ -114,6 +114,8 @@ For example:
 This will then load the correct environment settings. 
 
 ## Installing
+Please note this requires PHP5.3 or above. You should really be on PHP5.6 at a minimum!
+
 1. First make a backup of your existing `wp-config.php` file.
 2. Copy the following files from this repository to your WordPress installation:
 
