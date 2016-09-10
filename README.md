@@ -2,7 +2,7 @@
 
 This repository contains Studio 24's standard config setup for WordPress, which 
 loads different config based on current environment. This allows you to have different
-site configuration (e.g. debug mode, or database settings) for different environments (e.g. production and 
+site configuration (e.g. debug mode) for different environments (e.g. production and staging).
 
 Credit is due to FocusLabs [EE Master Config](https://github.com/focuslabllc/ee-master-config)
 who gave me the inspiration for the organisation of the config files.
@@ -148,3 +148,31 @@ wp-config.local.php
 
 You should now be able to load up the website in each different environment and everything should work just fine! It should now be safe to delete your backup *wp-config.php* file.
 
+### Moving your config files outside of the document root
+
+If you want to store your config files outside of the document root for additional security, this is very easy. 
+
+Simply move all the config files except for `wp-config.php` itself into another folder (which can be outside the doc root). 
+Next amend the require path for `wp-config.load.php` in `wp-config.php` to point to the new location and everything will work just fine! 
+
+Example directory structure:
+
+```
+config/
+       wp-config.default.php   (Config folder outside of doc root)
+       wp-config.development.php
+       wp-config.env.php
+       wp-config.load.php
+       wp-config.local.php
+       wp-config.production.php
+       wp-config.staging.php
+web/
+    wp-config.php              (Your website doc root, where WordPress is installed) 
+```
+ 
+Example `wp-config.php`
+
+```
+/** Load the Studio 24 WordPress Multi-Environment Config. */
+require_once(ABSPATH . '../config/wp-config.load.php');
+```
