@@ -39,7 +39,7 @@ if (!defined('WP_ENV') && empty($hostname)) {
 }
 
 // Set environment based on hostname or environment variable
-require ABSPATH . '/wp-config.env.php';
+require  __DIR__ . '/wp-config.env.php';
 
 
 /**
@@ -47,14 +47,14 @@ require ABSPATH . '/wp-config.env.php';
  */
 
 // 1st - Load default config
-require ABSPATH . '/wp-config.default.php';
+require  __DIR__ . '/wp-config.default.php';
 
 // 2nd - Load config file for current environment
-require ABSPATH . '/wp-config.' . WP_ENV . '.php';
+require  __DIR__ . '/wp-config.' . WP_ENV . '.php';
 
 // 3rd - Load local config file with any sensitive settings
-if (file_exists(ABSPATH . '/wp-config.local.php')) {
-    require ABSPATH . '/wp-config.local.php';
+if (file_exists( __DIR__ . '/wp-config.local.php')) {
+    require  __DIR__ . '/wp-config.local.php';
 }
 
 
