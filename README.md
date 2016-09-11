@@ -54,9 +54,32 @@ If you don't use Apache consult your webserver documentation.
 
 The current environment can also be detected from matching the hostname with the domain setup in `wp-config.env.php`.
 
-### The wp-config.env.php file
+### WP-CLI
+If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env` argument. Usage is:
 
-You need to edit the `wp-config.env.php` file and define some settings related to the environment domain. This needs to 
+    --env=<environment>
+
+For example:
+
+    wp help --env=development    
+    
+This will then load the correct environment settings. 
+
+#### .env file
+You can also create a file called `.env` and simply write the current environment in this file as a string. If this exists 
+and you do not, or cannot, use the `--env` argument then the current environment is read from this file.  
+
+Example:
+
+```
+development
+```
+
+It is recommended you do not add this file to version control.
+
+## The wp-config.env.php file
+
+You need to edit the `wp-config.env.php` file to define some settings related to the current environment URL. This needs to 
 be set regardless of which method is used to set the environment, since all methods set the WordPress URL via settings 
 contained in this file. 
  
@@ -69,7 +92,7 @@ environment names =>
                You can also use a wildcard * to indicate all sub-domains at a domain, which is useful when using
                WordPress Multisite. If you use wildcards, set the domain should to a single string, not an array.
     path    => If WordPress is installed to a sub-folder set it here.
-    ssl     => Whether SSL should be used on this domain.
+    ssl     => Whether SSL should be used on this domain. If set, this also sets FORCE_SSL_ADMIN to true.
 ```
 
 Example usage:
@@ -126,17 +149,6 @@ Example usage when using a wildcard for WordPress multi-site.
     ],
 ```
 
-## WP-CLI argument
-If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env` argument. Usage is:
-
-    --env=<environment>
-
-For example:
-
-    wp help --env=development    
-    
-This will then load the correct environment settings. 
-
 ## Installing
 Please note this requires PHP5.4 or above. You should really be on PHP5.6 at a minimum!
 
@@ -174,7 +186,7 @@ wp-config.local.php
 
 You should now be able to load up the website in each different environment and everything should work just fine! It should now be safe to delete your backup *wp-config.php* file.
 
-### Moving your config files outside of the document root
+## Moving your config files outside of the document root
 
 If you want to store your config files outside of the document root for additional security, this is very easy. 
 

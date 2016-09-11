@@ -23,6 +23,14 @@ function s24_load_environment_config() {
         foreach ($argv as $arg) {
             if (preg_match('/--env=(.+)/', $arg, $m)) {
                 define('WP_ENV', $m[1]);
+                break;
+            }
+        }
+        // Also support via .env file in config directory
+        if (!defined('WP_ENV')) {
+            if (file_exists(__DIR__ . '/.env')) {
+                $environment = trim(file_get_contents(__DIR__ . '/.env'));
+                define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
             }
         }
     }
