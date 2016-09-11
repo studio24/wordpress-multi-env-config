@@ -52,54 +52,78 @@ If you don't use Apache consult your webserver documentation.
 
 ### Server hostname
 
-You can also edit the `wp-config.env.php` file and define what hostnames are used for which environments. 
+The current environment can also be detected from matching the hostname with the domain setup in `wp-config.env.php`.
 
-These are simply set at the top of this file, e.g.
+### The wp-config.env.php file
 
+You need to edit the `wp-config.env.php` file and define some settings related to the environment domain. This needs to 
+be set regardless of which method is used to set the environment, since all methods set the WordPress URL via settings 
+contained in this file. 
+ 
+This file contains a simple array, made up of:
+ 
 ```
-$production  = 'domain.com';
-$staging     = 'staging.domain.com';
-$development = 'domain.local';
-```
-
-For example to set *www.mywebsite.com* as the live production environment,  *staging.mywebsite.com* as the staging environment and *mywebsite.local* as the local development environment the code is: 
-
-```
-$production  = 'www.mywebsite.com';
-$staging     = 'staging.mywebsite.com';
-$development = 'mywebsite.local';
-```
-        
-You'll notice the live website URL is also the default case. So if you don't set this correctly, you'll load the production website settings.
-
-If you use localhost for your local test website, just set the development hostname case to `localhost`.
-
-### SSL support
-If a domain supports SSL you can ensure this is set correctly in WordPress by forcing the domain to be served via SSL.
-
-To do this, in `wp-config.env.php` set the constant `WP_ENV_SSL` to true for the environments you wish to force SSL. 
-
-For example, to force SSL for production:
-
-```
-switch (WP_ENV) {
-
-    ...
-
-    case 'production':
-    default:
-        define('WP_ENV_DOMAIN', $production);
-        define('WP_ENV_SSL', true);
-}
+environment names =>
+    domain  => The domain name.
+               This can also be an array of multiple domains.
+               You can also use a wildcard * to indicate all sub-domains at a domain, which is useful when using
+               WordPress Multisite. If you use wildcards, set the domain should to a single string, not an array.
+    path    => If WordPress is installed to a sub-folder set it here.
+    ssl     => Whether SSL should be used on this domain.
 ```
 
-### WordPress in a sub-folder
-If your WordPress site is served from a sub-folder, then in `wp-config.env.php` set the constant `WP_ENV_PATH` to the sub-folder path. 
-
-For example, to set the sub-folder to blog, so the site is served from www.domain.com/blog/
+Example usage:
 
 ```
-define('WP_ENV_PATH', 'blog');
+$env = [
+    'production'  => [
+        'domain' => 'domain.com',
+        'path'   => '',
+        'ssl'    => false,
+    ],
+    'staging'     => [
+        'domain' => 'staging.domain.com',
+        'path'   => '',
+        'ssl'    => false,
+    ],
+    'development' => [
+        'domain' => 'domain.local',
+        'path'   => '',
+        'ssl'    => false,
+    ],
+];
+```
+
+If you use localhost for your local test website, just set the development hostname case to `localhost` rather than `domain.local`.
+
+Example usage when setting a sub-folder, and also serving the live site via SSL:
+
+```
+    'production'  => [
+        'domain' => 'domain.com',
+        'path'   => 'blog',
+        'ssl'    => true,
+    ],
+```
+
+Example usage for using more than one domain for an environment. 
+
+```
+    'production'  => [
+        'domain' => ['domain.com', 'domain2.com'],
+        'path'   => '',
+        'ssl'    => false,
+    ],
+```
+
+Example usage when using a wildcard for WordPress multi-site.
+
+```
+    'production'  => [
+        'domain' => '*.domain.com',
+        'path'   => '',
+        'ssl'    => false,
+    ],
 ```
 
 ## WP-CLI argument
@@ -114,7 +138,7 @@ For example:
 This will then load the correct environment settings. 
 
 ## Installing
-Please note this requires PHP5.3 or above. You should really be on PHP5.6 at a minimum!
+Please note this requires PHP5.4 or above. You should really be on PHP5.6 at a minimum!
 
 1. First make a backup of your existing `wp-config.php` file.
 2. Copy the following files from this repository to your WordPress installation:
@@ -126,7 +150,7 @@ wp-config.php
 wp-config-load.php
 ```
         
-3. Set the correct environments you wish to support via adding the correct hostnames to `wp-config.env.php` or as environment variables via your webserver.
+3. Set the correct environments you wish to support via the file `wp-config.env.php`, see the documentation above.
 4. Create one `wp-config.{environment}.php` file for each environment. You can use the sample files provided in this repository:
 
 ```
