@@ -63,6 +63,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDE
 
 // If WordPress has been bootstrapped via WP-CLI detect environment from --env=<environment> argument
 if (PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
+    if (empty($argv)){
+    	$argv = $_SERVER['argv'];
+    }	
     foreach ($argv as $arg) {
         if (preg_match('/--env=(.+)/', $arg, $m)) {
             define('WP_ENV', $m[1]);
