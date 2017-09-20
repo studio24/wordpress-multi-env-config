@@ -24,6 +24,12 @@
  *   case 'localhost':
  *
  */
+
+// Some local enviroments vary, check to to ensure the hostname contains `localhost`.
+if (strpos($hostname, 'localhost') !== false){
+    $hostname = 'localhost';
+}
+
 switch ($hostname) {
     case 'domain.dev':
         define('WP_ENV', 'development');
