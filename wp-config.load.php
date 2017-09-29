@@ -54,29 +54,27 @@ function s24_load_environment_config() {
             throw new Exception('You must set the domain value in your environment array, see wp-config.env.php');
         }
         $domain = $env_vars['domain'];
-
-        $wildcard = (strpos($domain, '*') !== false) ? true : false;
-        if ($wildcard) {
-            $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain, '/')) . '/';
-            if (preg_match($match, $hostname, $m)) {
-                if (!defined('WP_ENV')) {
-                    define('WP_ENV', $environment);
-                }
-                define('WP_ENV_DOMAIN', str_replace('*', $m[1], $domain));
-                if (isset($env_vars['ssl'])) {
-                    define('WP_ENV_SSL', (bool) $env_vars['ssl']);
-                }
-                if (isset($env_vars['path'])) {
-                    define('WP_ENV_PATH', trim($env_vars['path'], '/'));
-                }
-                break;
-            }
-        }
         if (!is_array($domain)) {
             $domain = [$domain];
         }
         foreach ($domain as $domain_name) {
-            if ($hostname === $domain_name) {
+            $wildcard = (strpos($domain_name, '*') !== false) ? true : false;
+            if ($wildcard) {
+                $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain_name, '/')) . '/';
+                if (preg_match($match, $hostname, $m)) {
+                    if (!defined('WP_ENV')) {
+                        define('WP_ENV', $environment);
+                    }
+                    define('WP_ENV_DOMAIN', str_replace('*', $m[1], $domain_name));
+                    if (isset($env_vars['ssl'])) {
+                        define('WP_ENV_SSL', (bool) $env_vars['ssl']);
+                    }
+                    if (isset($env_vars['path'])) {
+                        define('WP_ENV_PATH', trim($env_vars['path'], '/'));
+                    }
+                    break;
+                }
+            } elseif ($hostname === $domain_name) {
                 if (!defined('WP_ENV')) {
                     define('WP_ENV', $environment);
                 }
