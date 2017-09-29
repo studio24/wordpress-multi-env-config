@@ -3,14 +3,14 @@
  * Default config settings
  *
  * Enter any WordPress config settings that are default to all environments
- * in this file. These can then be overridden in the environment config files.
+ * in this file.
  * 
  * Please note if you add constants in this file (i.e. define statements) 
- * these cannot be overridden in environment config files.
+ * these cannot be overridden in environment config files so make sure these are only set once.
  * 
  * @package    Studio 24 WordPress Multi-Environment Config
- * @version    1.0
- * @author     Studio 24 Ltd  <info@studio24.net>
+ * @version    2.0.0
+ * @author     Studio 24 Ltd  <hello@studio24.net>
  */
   
 
@@ -39,6 +39,7 @@ define('LOGGED_IN_SALT',   'put your unique phrase here');
 define('NONCE_SALT',       'put your unique phrase here');
 
 /**#@-*/
+
 
 /**
  * WordPress Database Table prefix.

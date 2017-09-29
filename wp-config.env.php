@@ -1,40 +1,41 @@
 <?php
 /**
  * Setup environments
- * 
- * Set environment based on the current server hostname, this is stored
- * in the $hostname variable
- * 
- * You can define the current environment via: 
- *     define('WP_ENV', 'production');
- * 
+ *
  * @package    Studio 24 WordPress Multi-Environment Config
- * @version    1.0
- * @author     Studio 24 Ltd  <info@studio24.net>
+ * @version    2.0.0
+ * @author     Studio 24 Ltd  <hello@studio24.net>
  */
 
 
-/*
- * Set environment based on hostname
+/**
+ * Define array of environment URLs
  *
- * If you just use localhost for your local test environment then in place of:
- *   case 'domain.dev':
+ * Array of:
+ * environment names =>
+ *      domain  => The domain name
+ *                 This can also be an array of multiple domains
+ *                 You can also use a wildcard * to indicate all sub-domains at a domain, which is useful when using
+ *                 WordPress Multisite. If you use wildcards, set the domain should to a single string, not an array
+ *      path    => If WordPress is installed to a sub-folder set it here
+ *      ssl     => Whether SSL should be used on this domain
  *
- * Just use:
- *   case 'localhost':
- *
+ * If you don't use any environments, remove them
  */
-switch ($hostname) {
-    case 'domain.dev':
-        define('WP_ENV', 'development');
-        break;
-    
-    case 'staging.domain.com':
-        define('WP_ENV', 'staging');
-        break;
-
-    case 'www.domain.com':
-    default: 
-        define('WP_ENV', 'production');
-}
-
+$env = [
+    'production'  => [
+        'domain' => 'domain.com',
+        'path'   => '',
+        'ssl'    => false,
+    ],
+    'staging'     => [
+        'domain' => 'staging.domain.com',
+        'path'   => '',
+        'ssl'    => false,
+    ],
+    'development' => [
+        'domain' => 'domain.local',
+        'path'   => '',
+        'ssl'    => false,
+    ],
+];
