@@ -63,3 +63,13 @@ define('WPLANG', '');
  * Increase memory limit. 
  */
 define('WP_MEMORY_LIMIT', '64M');
+
+/**
+ * Limit post revisions.
+ */
+define('WP_POST_REVISIONS', 5);
+
+/**
+ * Disable automatic updates.
+ */
+define( 'AUTOMATIC_UPDATER_DISABLED', true );
