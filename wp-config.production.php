@@ -29,3 +29,8 @@ define('DB_USER', '');
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
+
+/**
+ * Disable file editor.
+ */
+define( 'DISALLOW_FILE_EDIT', true );
