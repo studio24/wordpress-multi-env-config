@@ -13,6 +13,9 @@ function s24_load_environment_config() {
      * Setup environment
      */
 
+    // We need to set $argv as global to be able to access it
+    global $argv;
+
     // Set env if set via environment variable
     if (getenv('WP_ENV') !== false) {
         define('WP_ENV', preg_replace('/[^a-z]/', '', getenv('WP_ENV')));
@@ -48,6 +51,15 @@ function s24_load_environment_config() {
 
     // Load environments
     require  __DIR__ . '/wp-config.env.php';
+
+    /*
+     * If the hostname isn't already defined (if we are interacting with WordPress
+     * via the CLI for example) then get the Hostname using the WP_ENV environment
+     * variable
+     */
+    if(empty($hostname)) {
+        $hostname = $env[WP_ENV]['domain'];
+    }
 
     foreach ($env as $environment => $env_vars) {
         if (!isset($env_vars['domain'])) {
