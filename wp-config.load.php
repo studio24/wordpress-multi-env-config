@@ -35,7 +35,7 @@ function s24_load_environment_config() {
                 $environment = trim(file_get_contents(__DIR__ . '/.env'));
                 $value = preg_replace('/[^a-z]/', '', $environment);
                 if (!empty($value)) {
-                    define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
+                    define('WP_ENV', $value);
                 }
             }
         }
@@ -60,8 +60,13 @@ function s24_load_environment_config() {
      * via the CLI for example) then get the Hostname using the WP_ENV environment
      * variable
      */
-    if (empty($hostname)) {
-        $hostname = $env[WP_ENV]['domain'];
+    if (empty($hostname) && isset($env[WP_ENV])) {
+        if (is_array($env[WP_ENV])) {
+            // Take first defined domain if config has an array of domains
+            $hostname = $env[WP_ENV]['domain'][0];
+        } else {
+            $hostname = $env[WP_ENV]['domain'];
+        }
     }
 
     if (empty($hostname)) {
