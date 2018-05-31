@@ -61,7 +61,7 @@ function s24_load_environment_config() {
      * variable
      */
     if (empty($hostname) && isset($env[WP_ENV])) {
-        if (is_array($env[WP_ENV])) {
+        if (is_array($env[WP_ENV]['domain'])) {
             // Take first defined domain if config has an array of domains
             $hostname = $env[WP_ENV]['domain'][0];
         } else {
