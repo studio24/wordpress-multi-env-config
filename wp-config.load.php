@@ -22,7 +22,7 @@ function s24_load_environment_config() {
     }
 
     // Set env via --env=<environment> argument if running via WP-CLI
-    if (PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
+    if (!defined('WP_ENV') && PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
         foreach ($argv as $arg) {
             if (preg_match('/--env=(.+)/', $arg, $m)) {
                 define('WP_ENV', $m[1]);
