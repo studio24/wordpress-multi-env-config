@@ -17,7 +17,7 @@ function s24_load_environment_config() {
     global $argv;
 
     // Set env if set via environment variable
-    if (getenv('WP_ENV') !== false) {
+    if (getenv('WP_ENV') !== false && !empty(getenv('WP_ENV'))) {
         define('WP_ENV', preg_replace('/[^a-z]/', '', getenv('WP_ENV')));
     }
 
@@ -33,7 +33,10 @@ function s24_load_environment_config() {
         if (!defined('WP_ENV')) {
             if (file_exists(__DIR__ . '/.env')) {
                 $environment = trim(file_get_contents(__DIR__ . '/.env'));
-                define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
+                $value = preg_replace('/[^a-z]/', '', $environment);
+                if (!empty($value)) {
+                    define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
+                }
             }
         }
     }
@@ -41,7 +44,7 @@ function s24_load_environment_config() {
     // Define site host
     if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
         $hostname = strtolower(filter_var($_SERVER['HTTP_X_FORWARDED_HOST'], FILTER_SANITIZE_STRING));
-    } else {
+    } elseif (isset($_SERVER['HTTP_HOST'])) {
         $hostname = strtolower(filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_STRING));
     }
 
@@ -57,8 +60,12 @@ function s24_load_environment_config() {
      * via the CLI for example) then get the Hostname using the WP_ENV environment
      * variable
      */
-    if(empty($hostname)) {
+    if (empty($hostname)) {
         $hostname = $env[WP_ENV]['domain'];
+    }
+
+    if (empty($hostname)) {
+        throw new Exception("Cannot determine current WordPress domain");
     }
 
     foreach ($env as $environment => $env_vars) {
