@@ -159,7 +159,7 @@ Please note this requires PHP5.4 or above. You should really be on PHP5.6 at a m
 wp-config.default.php
 wp-config.env.php
 wp-config.php
-wp-config-load.php
+wp-config.load.php
 ```
         
 3. Set the correct environments you wish to support via the file `wp-config.env.php`, see the documentation above.
