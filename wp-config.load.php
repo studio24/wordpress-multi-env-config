@@ -12,10 +12,6 @@ function s24_load_environment_config() {
     /**
      * Setup environment
      */
-
-    // We need to set $argv as global to be able to access it
-    global $argv;
-
     // Set env if set via environment variable
     if (getenv('WP_ENV') !== false) {
         define('WP_ENV', preg_replace('/[^a-z]/', '', getenv('WP_ENV')));
@@ -24,10 +20,13 @@ function s24_load_environment_config() {
     // Set env via --env=<environment> argument if running via WP-CLI
     if (!defined('WP_ENV') && PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
 
+        // We need to set $argv as global to be able to access it
+        global $argv;
+
         if (isset($argv)) {
             foreach ($argv as $arg) {
                 if (preg_match('/--env=(.+)/', $arg, $m)) {
-                    define('WP_ENV', $m[1]);
+                    define('WP_ENV', preg_replace('/[^a-z]/', '', $m[1]));
                     break;
                 }
             }
@@ -54,6 +53,10 @@ function s24_load_environment_config() {
     // Load environments
     require  __DIR__ . '/wp-config.env.php';
 
+    if (!isset($env) || !is_array($env)) {
+        throw new Exception('$env array not detected, you must set this in wp-config.env.php');
+    }
+
     // Set environment constants
     if (defined('WP_ENV')) {
         if (isset($env[WP_ENV])) {
@@ -76,7 +79,7 @@ function s24_load_environment_config() {
                 $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain, '/')) . '/';
                 if (preg_match($match, $hostname, $m)) {
                     if (!defined('WP_ENV')) {
-                        define('WP_ENV', $environment);
+                        define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
                     }
                     define('WP_ENV_DOMAIN', str_replace('*', $m[1], $domain));
                     if (isset($env_vars['ssl'])) {
@@ -94,7 +97,7 @@ function s24_load_environment_config() {
             foreach ($domain as $domain_name) {
                 if ($hostname === $domain_name) {
                     if (!defined('WP_ENV')) {
-                        define('WP_ENV', $environment);
+                        define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
                     }
                     define('WP_ENV_DOMAIN', $domain_name);
                     if (isset($env_vars['ssl'])) {
@@ -112,11 +115,6 @@ function s24_load_environment_config() {
     if (!defined('WP_ENV')) {
         throw new Exception("Cannot determine current environment");
     }
-
-    /**
-     * Define WordPress Site URLs
-     */
-
     if (!defined('WP_ENV_DOMAIN')) {
         throw new Exception("Cannot determine current environment domain, make sure this is set in wp-config.env.php");
     }
@@ -126,6 +124,10 @@ function s24_load_environment_config() {
     if (WP_ENV_SSL && (!defined('FORCE_SSL_ADMIN'))) {
         define('FORCE_SSL_ADMIN', true);
     }
+
+    /**
+     * Define WordPress Site URLs
+     */
     $protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
     $path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
 
