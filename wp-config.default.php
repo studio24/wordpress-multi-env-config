@@ -59,7 +59,25 @@ $table_prefix  = 'wp_';
  */
 define('WPLANG', '');
 
+
+// Recommended WP config settings, uncomment to use these
+
 /**
  * Increase memory limit. 
  */
-define('WP_MEMORY_LIMIT', '64M');
+//define('WP_MEMORY_LIMIT', '64M');
+
+/**
+ * Limit post revisions.
+ */
+//define('WP_POST_REVISIONS', 5);
+
+/**
+ * Disable automatic updates.
+ */
+//define( 'AUTOMATIC_UPDATER_DISABLED', true );
+
+/**
+ * Disable file editor.
+ */
+//define( 'DISALLOW_FILE_EDIT', true );
