@@ -12,112 +12,109 @@ function s24_load_environment_config() {
     /**
      * Setup environment
      */
-
-    // We need to set $argv as global to be able to access it
-    global $argv;
-
     // Set env if set via environment variable
-    if (getenv('WP_ENV') !== false && !empty(getenv('WP_ENV'))) {
+    if (getenv('WP_ENV') !== false) {
         define('WP_ENV', preg_replace('/[^a-z]/', '', getenv('WP_ENV')));
     }
 
     // Set env via --env=<environment> argument if running via WP-CLI
     if (!defined('WP_ENV') && PHP_SAPI == "cli" && defined('WP_CLI_ROOT')) {
-        foreach ($argv as $arg) {
-            if (preg_match('/--env=(.+)/', $arg, $m)) {
-                define('WP_ENV', $m[1]);
-                break;
+
+        // We need to set $argv as global to be able to access it
+        global $argv;
+
+        if (isset($argv)) {
+            foreach ($argv as $arg) {
+                if (preg_match('/--env=(.+)/', $arg, $m)) {
+                    define('WP_ENV', preg_replace('/[^a-z]/', '', $m[1]));
+                    break;
+                }
             }
         }
+
         // Also support via .env file in config directory
         if (!defined('WP_ENV')) {
             if (file_exists(__DIR__ . '/.env')) {
                 $environment = trim(file_get_contents(__DIR__ . '/.env'));
-                $value = preg_replace('/[^a-z]/', '', $environment);
-                if (!empty($value)) {
-                    define('WP_ENV', $value);
-                }
+                define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
             }
         }
     }
 
-    // Define site host
-    if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-        $hostname = strtolower(filter_var($_SERVER['HTTP_X_FORWARDED_HOST'], FILTER_SANITIZE_STRING));
-    } elseif (isset($_SERVER['HTTP_HOST'])) {
-        $hostname = strtolower(filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_STRING));
-    }
-
-    if (!defined('WP_ENV') && empty($hostname)) {
-        throw new Exception("Cannot determine current environment via WP_ENV or hostname");
+    // Define ENV from hostname
+    if (!defined('WP_ENV')) {
+        if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+            $hostname = strtolower(filter_var($_SERVER['HTTP_X_FORWARDED_HOST'], FILTER_SANITIZE_STRING));
+        } else {
+            $hostname = strtolower(filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_STRING));
+        }
     }
 
     // Load environments
     require  __DIR__ . '/wp-config.env.php';
 
-    /*
-     * If the hostname isn't already defined (if we are interacting with WordPress
-     * via the CLI for example) then get the Hostname using the WP_ENV environment
-     * variable
-     */
-    if (empty($hostname) && isset($env[WP_ENV])) {
-        if (is_array($env[WP_ENV]['domain'])) {
-            // Take first defined domain if config has an array of domains
-            $hostname = $env[WP_ENV]['domain'][0];
-        } else {
-            $hostname = $env[WP_ENV]['domain'];
-        }
+    if (!isset($env) || !is_array($env)) {
+        throw new Exception('$env array not detected, you must set this in wp-config.env.php');
     }
 
-    if (empty($hostname)) {
-        throw new Exception("Cannot determine current WordPress domain");
-    }
+    // Set environment constants
+    if (defined('WP_ENV')) {
+        if (isset($env[WP_ENV])) {
+            define('WP_ENV_DOMAIN', $env[WP_ENV]['domain']);
+            define('WP_ENV_PATH', trim($env[WP_ENV]['path'], '/'));
+            define('WP_ENV_SSL', (bool) $env[WP_ENV]['ssl']);
+        }
 
-    foreach ($env as $environment => $env_vars) {
-        if (!isset($env_vars['domain'])) {
-            throw new Exception('You must set the domain value in your environment array, see wp-config.env.php');
-        }
-        $domain = $env_vars['domain'];
-        if (!is_array($domain)) {
-            $domain = [$domain];
-        }
-        foreach ($domain as $domain_name) {
-            $wildcard = (strpos($domain_name, '*') !== false) ? true : false;
+    } else {
+
+        // Detect environment from hostname
+        foreach ($env as $environment => $env_vars) {
+            if (!isset($env_vars['domain'])) {
+                throw new Exception('You must set the domain value in your environment array, see wp-config.env.php');
+            }
+            $domain = $env_vars['domain'];
+
+            $wildcard = (strpos($domain, '*') !== false) ? true : false;
             if ($wildcard) {
-                $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain_name, '/')) . '/';
+                $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain, '/')) . '/';
                 if (preg_match($match, $hostname, $m)) {
                     if (!defined('WP_ENV')) {
-                        define('WP_ENV', $environment);
+                        define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
                     }
-                    define('WP_ENV_DOMAIN', str_replace('*', $m[1], $domain_name));
+                    define('WP_ENV_DOMAIN', str_replace('*', $m[1], $domain));
                     if (isset($env_vars['ssl'])) {
-                        define('WP_ENV_SSL', (bool) $env_vars['ssl']);
+                        define('WP_ENV_SSL', (bool)$env_vars['ssl']);
                     }
                     if (isset($env_vars['path'])) {
                         define('WP_ENV_PATH', trim($env_vars['path'], '/'));
                     }
                     break;
                 }
-            } elseif ($hostname === $domain_name) {
-                if (!defined('WP_ENV')) {
-                    define('WP_ENV', $environment);
+            }
+            if (!is_array($domain)) {
+                $domain = [$domain];
+            }
+            foreach ($domain as $domain_name) {
+                if ($hostname === $domain_name) {
+                    if (!defined('WP_ENV')) {
+                        define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
+                    }
+                    define('WP_ENV_DOMAIN', $domain_name);
+                    if (isset($env_vars['ssl'])) {
+                        define('WP_ENV_SSL', (bool)$env_vars['ssl']);
+                    }
+                    if (isset($env_vars['path'])) {
+                        define('WP_ENV_PATH', trim($env_vars['path'], '/'));
+                    }
+                    break;
                 }
-                define('WP_ENV_DOMAIN', $domain_name);
-                if (isset($env_vars['ssl'])) {
-                    define('WP_ENV_SSL', (bool) $env_vars['ssl']);
-                }
-                if (isset($env_vars['path'])) {
-                    define('WP_ENV_PATH', trim($env_vars['path'], '/'));
-                }
-                break;
             }
         }
     }
 
-    /**
-     * Define WordPress Site URLs
-     */
-
+    if (!defined('WP_ENV')) {
+        throw new Exception("Cannot determine current environment");
+    }
     if (!defined('WP_ENV_DOMAIN')) {
         throw new Exception("Cannot determine current environment domain, make sure this is set in wp-config.env.php");
     }
@@ -127,14 +124,18 @@ function s24_load_environment_config() {
     if (WP_ENV_SSL && (!defined('FORCE_SSL_ADMIN'))) {
         define('FORCE_SSL_ADMIN', true);
     }
+
+    /**
+     * Define WordPress Site URLs
+     */
     $protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
     $path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
 
     if (!defined('WP_SITEURL')) {
-        define('WP_SITEURL', $protocol . trim($hostname, '/') . $path);
+        define('WP_SITEURL', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
     }
     if (!defined('WP_HOME')) {
-        define('WP_HOME', $protocol . trim($hostname, '/') . $path);
+        define('WP_HOME', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
     }
 
     // Define W3 Total Cache hostname

@@ -29,3 +29,11 @@ define('DB_USER', '');
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
+
+
+// Recommended WP config settings, uncomment to use these
+
+/**
+ * Disable theme/plugin upload.
+ */
+//define( 'DISALLOW_FILE_MODS', true );
