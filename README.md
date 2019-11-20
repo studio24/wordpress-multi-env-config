@@ -91,7 +91,8 @@ environment names =>
                This can also be an array of multiple domains.
                You can also use a wildcard * to indicate all sub-domains at a domain, which is useful when using
                WordPress Multisite. If you use wildcards, set the domain should to a single string, not an array.
-    path    => If WordPress is installed to a sub-folder set it here.
+    home_path    => Path to the homepage, used to define 'WP_HOME' constant
+    site_path   => Path to WordPress core, used to define 'WP_SITEURL' constant
     ssl     => Whether SSL should be used on this domain. If set, this also sets FORCE_SSL_ADMIN to true.
 ```
 
@@ -101,17 +102,20 @@ Example usage:
 $env = [
     'production'  => [
         'domain' => 'domain.com',
-        'path'   => '',
+        'home_path' => '',
+        'site_path'   => '',
         'ssl'    => false,
     ],
     'staging'     => [
         'domain' => 'staging.domain.com',
-        'path'   => '',
+        'home_path' => '',
+        'site_path'   => '',
         'ssl'    => false,
     ],
     'development' => [
         'domain' => 'domain.local',
-        'path'   => '',
+        'home_path' => '',
+        'site_path'   => '',
         'ssl'    => false,
     ],
 ];
@@ -124,7 +128,19 @@ Example usage when setting a sub-folder, and also serving the live site via SSL:
 ```
     'production'  => [
         'domain' => 'domain.com',
-        'path'   => 'blog',
+        'home_path'   => 'blog',
+        'site_path    => 'blog',
+        'ssl'    => true,
+    ],
+```
+
+Example usage when installing WP in a sub-folder without affecting the home url:
+
+```
+    'production'  => [
+        'domain' => 'domain.com',
+        'home_path'   => '',
+        'site_path    => 'wordpress',
         'ssl'    => true,
     ],
 ```
@@ -134,7 +150,8 @@ Example usage for using more than one domain for an environment.
 ```
     'production'  => [
         'domain' => ['domain.com', 'domain2.com'],
-        'path'   => '',
+        'home_path'   => '',
+        'site_path'   => '',
         'ssl'    => false,
     ],
 ```
@@ -144,7 +161,8 @@ Example usage when using a wildcard for WordPress multi-site.
 ```
     'production'  => [
         'domain' => '*.domain.com',
-        'path'   => '',
+        'home_path'   => '',
+        'site_path'   => '',
         'ssl'    => false,
     ],
 ```
