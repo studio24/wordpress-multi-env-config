@@ -55,25 +55,16 @@ If you don't use Apache consult your webserver documentation.
 The current environment can also be detected from matching the hostname with the domain setup in `wp-config.env.php`.
 
 ### WP-CLI
-If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env` argument. Usage is:
+If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment using an '.env' file.
 
-    --env=<environment>
-
-For example:
-
-    wp help --env=development    
-    
-This will then load the correct environment settings. 
-
-#### .env file
-You can also create a file called `.env` and simply write the current environment in this file as a string. If this exists 
-and you do not, or cannot, use the `--env` argument then the current environment is read from this file.  
+You need to create a file called `.env` and simply write the current environment in this file as a string.
 
 Example:
 
 ```
 development
 ```
+This file needs to be placed among the wp-config.*.php files (this applies if you keep these files in a sub-folder and the wp-config.php file in the web root).
 
 It is recommended you do not add this file to version control.
 
