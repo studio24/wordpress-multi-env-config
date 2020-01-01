@@ -1,30 +1,44 @@
 # Studio 24 WordPress Multi-Environment Config
 
-This repository contains Studio 24's standard config setup for WordPress, which 
-loads different config based on current environment. This allows you to have different
-site configuration (e.g. debug mode) for different environments (e.g. production and staging).
-
-Credit is due to FocusLabs [EE Master Config](https://github.com/focuslabllc/ee-master-config)
-who gave me the inspiration for the organisation of the config files.
-
-Please note the current version is v2, if you need to use the older v1 version [please see the v1 release](https://github.com/studio24/wordpress-multi-env-config/releases/tag/v1.0.2).
+Manage WordPress config for multiple environments (e.g. Development, Staging, Production). 
 
 ## How it works
 
-The system detects what environment the current website is in and loads the relevant config file for that environment. 
+The system replaces the traditional `wp-config.php` file and loads the correct config based on the current environment. 
+It does this by checking:
 
-By default the environment is defined by the hostname, though you can also set this as an environment variable.
+1. Whether the environment variable `WP_ENV` is set
+2. If there is a `.env` file in the WordPress directory or parent directory (it checks up to two parent directories above 
+the folder WordPress is installed to)
+3. Match the current environment based on the hostname
 
 Config files are then loaded according to the current environment. There is support for loading a local config file
-for sensitive data, which is intended to not be committed to version control.
+for sensitive data, which is intended to not be committed to version control (e.g. for passwords or other secrets).
 
 ### Config files
  
-Up to three different config files are loaded:
+Up to three different config files are loaded, in the following order:
 
-1. **Default configuration** (in `wp-config.default.php`, e.g. shared settings such as `$table_prefix`)
+1. **Default configuration** that applies to all environments (in `wp-config.default.php`, e.g. shared settings such as `$table_prefix`)
 2. **Environment configuration** (in `wp-config.{ENVIRONMENT}.php`, e.g. any setting specific to the environment such as database name or debug mode)
 3. **Optional local settings** (in `wp-config.local.php`, e.g. any sensitive settings you do not want to commit to version control, e.g. database password)
+
+### Directory structure
+
+It is recommended to place config files outside of your WordPress folder. e.g.
+
+```
+config/
+       environments.php             (List of environments)
+       wp-config.default.php        (Default global config)
+       wp-config.development.php    (Development environment config)
+       wp-config.local.php          (Any local config you don't want in version control)
+       wp-config.production.php     (Production environment config)
+       wp-config.staging.php        (Staging environment config)
+web/
+    wp-config.php
+    (WordPress files)
+```
 
 ### Environment values
 
@@ -34,7 +48,7 @@ By default, environment values are:
 * `staging` (test website for client review)
 * `development` (local development copy of the website)
 
-You can add other environment values by adding these to the `wp-config.env.php` file.
+You can add other environment values by adding these to the `environments.php` file.
 
 ## Setting the environment
 
@@ -55,25 +69,16 @@ If you don't use Apache consult your webserver documentation.
 The current environment can also be detected from matching the hostname with the domain setup in `wp-config.env.php`.
 
 ### WP-CLI
-If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment via the `--env` argument. Usage is:
+If you're using [WP-CLI](http://wp-cli.org/) you can specify your environment using an '.env' file.
 
-    --env=<environment>
-
-For example:
-
-    wp help --env=development    
-    
-This will then load the correct environment settings. 
-
-#### .env file
-You can also create a file called `.env` and simply write the current environment in this file as a string. If this exists 
-and you do not, or cannot, use the `--env` argument then the current environment is read from this file.  
+You need to create a file called `.env` and simply write the current environment in this file as a string.
 
 Example:
 
 ```
 development
 ```
+This file needs to be placed among the wp-config.*.php files (this applies if you keep these files in a sub-folder and the wp-config.php file in the web root).
 
 It is recommended you do not add this file to version control.
 
@@ -232,3 +237,28 @@ Example `wp-config.php`
 /** Load the Studio 24 WordPress Multi-Environment Config. */
 require_once(ABSPATH . '../config/wp-config.load.php');
 ```
+
+## Tests
+
+Install 
+
+```
+./s24-multi-env-config/bin/install-wp-tests.sh wordpress_test <db_user> <db_pass> <db_host> latest
+composer install
+```
+
+Run PHPUnit
+
+```
+./vendor/bin/phpunit
+```
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+## Credits
+
+* [Simon R Jones](https://github.com/simonrjones)
+
+Credit is due to FocusLabs [EE Master Config](https://github.com/focuslabllc/ee-master-config)
+who gave me the inspiration for the organisation of config files.
