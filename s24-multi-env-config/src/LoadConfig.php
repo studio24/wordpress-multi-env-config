@@ -83,7 +83,8 @@ class LoadConfig
 		if (defined('WP_ENV')) {
 			if (isset($env[WP_ENV])) {
 				define('WP_ENV_DOMAIN', $env[WP_ENV]['domain']);
-				define('WP_ENV_PATH', trim($env[WP_ENV]['path'], '/'));
+				define('WP_ENV_HOME_PATH', trim($env[WP_ENV]['home_path'], '/'));
+				define('WP_ENV_SITE_PATH', trim($env[WP_ENV]['site_path'], '/'));
 				define('WP_ENV_SSL', (bool)$env[WP_ENV]['ssl']);
 			}
 
@@ -107,8 +108,11 @@ class LoadConfig
 						if (isset($env_vars['ssl'])) {
 							define('WP_ENV_SSL', (bool)$env_vars['ssl']);
 						}
-						if (isset($env_vars['path'])) {
-							define('WP_ENV_PATH', trim($env_vars['path'], '/'));
+						if (isset($env_vars['home_path'])) {
+							define('WP_ENV_HOME_PATH', trim($env_vars['home_path'], '/'));
+						}
+						if (isset($env_vars['site_path'])) {
+							define('WP_ENV_SITE_PATH', trim($env_vars['site_path'], '/'));
 						}
 						break;
 					}
@@ -125,8 +129,11 @@ class LoadConfig
 						if (isset($env_vars['ssl'])) {
 							define('WP_ENV_SSL', (bool)$env_vars['ssl']);
 						}
-						if (isset($env_vars['path'])) {
-							define('WP_ENV_PATH', trim($env_vars['path'], '/'));
+						if (isset($env_vars['home_path'])) {
+							define('WP_ENV_HOME_PATH', trim($env_vars['home_path'], '/'));
+						}
+						if (isset($env_vars['site_path'])) {
+							define('WP_ENV_SITE_PATH', trim($env_vars['site_path'], '/'));
 						}
 						break;
 					}
@@ -151,13 +158,14 @@ class LoadConfig
 		 * Define WordPress Site URLs
 		 */
 		$protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
-		$path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
+		$homePath = (defined('WP_ENV_HOME_PATH')) ? '/' . trim(WP_ENV_HOME_PATH, '/') : '';
+		$sitePath = (defined('WP_ENV_SITE_PATH')) ? '/' . trim(WP_ENV_SITE_PATH, '/') : '';
 
 		if (!defined('WP_SITEURL')) {
-			define('WP_SITEURL', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
+			define('WP_SITEURL', $protocol . trim(WP_ENV_DOMAIN, '/') . $sitePath);
 		}
 		if (!defined('WP_HOME')) {
-			define('WP_HOME', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
+			define('WP_HOME', $protocol . trim(WP_ENV_DOMAIN, '/') . $homePath);
 		}
 
 		// Define W3 Total Cache hostname

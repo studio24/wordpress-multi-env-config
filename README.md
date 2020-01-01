@@ -179,8 +179,8 @@ Please note this requires PHP5.4 or above. You should really be on PHP5.6 at a m
 2. Copy the following files from this repository to your WordPress installation:
 
 ```
+environments.php
 wp-config.default.php
-wp-config.env.php
 wp-config.php
 wp-config.load.php
 ```
