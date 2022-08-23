@@ -76,7 +76,7 @@ function s24_load_environment_config() {
 
             $wildcard = (is_string($domain) && strpos($domain, '*') !== false) ? true : false;
             if ($wildcard) {
-                $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain, '/')) . '/';
+                $match = '/' . str_replace('\*', '([^.]+)', preg_quote($domain, '/')) . '/';
                 if (preg_match($match, $hostname, $m)) {
                     if (!defined('WP_ENV')) {
                         define('WP_ENV', preg_replace('/[^a-z]/', '', $environment));
