@@ -26,7 +26,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file: ./wordpress-multi-env-config.zip
-          asset_name: wordpress-multi-env-config0.zip
+          asset_name: wordpress-multi-env-config.zip
           tag: ${{ steps.release.outputs.tag_name }}
           overwrite: true
         if: ${{ steps.release.outputs.release_created }}

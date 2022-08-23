@@ -9,6 +9,14 @@ who gave me the inspiration for the organisation of the config files.
 
 Please note the current version is v2, if you need to use the older v1 version [please see the v1 release](https://github.com/studio24/wordpress-multi-env-config/releases/tag/v1.0.2).
 
+## Contributing
+
+Strata is an Open Source project. Find out more about how to [contribute](CONTRIBUTING.md).
+
+## Security Issues
+
+If you discover a security vulnerability within WordPress Multi-Environment Config, please follow our [disclosure procedure](SECURITY.md).
+
 ## How it works
 
 The system detects what environment the current website is in and loads the relevant config file for that environment. 
@@ -141,10 +149,12 @@ Example usage when using a wildcard for WordPress multi-site.
 ```
 
 ## Installing
+
 Please note this requires PHP5.4 or above. You should really be on PHP5.6 at a minimum!
 
-1. First make a backup of your existing `wp-config.php` file.
-2. Copy the following files from this repository to your WordPress installation:
+1. Download the required files via [wordpress-multi-env-config.zip](https://github.com/studio24/wordpress-multi-env-config/releases/latest/download/wordpress-multi-env-config.zip)
+2. First make a backup of your existing `wp-config.php` file.
+3. Copy the following files from this repository to your WordPress installation:
 
 ```
 wp-config.default.php
