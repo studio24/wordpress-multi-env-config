@@ -74,7 +74,7 @@ function s24_load_environment_config() {
             }
             $domain = $env_vars['domain'];
 
-            $wildcard = (strpos($domain, '*') !== false) ? true : false;
+            $wildcard = (is_string($domain) && strpos($domain, '*') !== false) ? true : false;
             if ($wildcard) {
                 $match = '/' . str_replace('*', '([^.]+)', preg_quote($domain, '/')) . '/';
                 if (preg_match($match, $hostname, $m)) {
@@ -84,9 +84,24 @@ function s24_load_environment_config() {
                     define('WP_ENV_DOMAIN', str_replace('*', $m[1], $domain));
                     if (isset($env_vars['ssl'])) {
                         define('WP_ENV_SSL', (bool)$env_vars['ssl']);
+                    } else {
+                        define('WP_ENV_SSL', false);
                     }
                     if (isset($env_vars['path'])) {
                         define('WP_ENV_PATH', trim($env_vars['path'], '/'));
+                    }
+
+                    /**
+                    * Define WordPress Site URLs
+                    */
+                    $protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
+                    $path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
+
+                    if (!defined('WP_SITEURL')) {
+                        define('WP_SITEURL', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
+                    }
+                    if (!defined('WP_HOME')) {
+                        define('WP_HOME', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
                     }
                     break;
                 }
@@ -102,9 +117,24 @@ function s24_load_environment_config() {
                     define('WP_ENV_DOMAIN', $domain_name);
                     if (isset($env_vars['ssl'])) {
                         define('WP_ENV_SSL', (bool)$env_vars['ssl']);
+                    } else {
+                        define('WP_ENV_SSL', false);
                     }
                     if (isset($env_vars['path'])) {
                         define('WP_ENV_PATH', trim($env_vars['path'], '/'));
+                    }
+
+                    /**
+                    * Define WordPress Site URLs
+                    */
+                    $protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
+                    $path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
+
+                    if (!defined('WP_SITEURL')) {
+                        define('WP_SITEURL', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
+                    }
+                    if (!defined('WP_HOME')) {
+                        define('WP_HOME', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
                     }
                     break;
                 }
@@ -123,19 +153,6 @@ function s24_load_environment_config() {
     }
     if (WP_ENV_SSL && (!defined('FORCE_SSL_ADMIN'))) {
         define('FORCE_SSL_ADMIN', true);
-    }
-
-    /**
-     * Define WordPress Site URLs
-     */
-    $protocol = (WP_ENV_SSL) ? 'https://' : 'http://';
-    $path = (defined('WP_ENV_PATH')) ? '/' . trim(WP_ENV_PATH, '/') : '';
-
-    if (!defined('WP_SITEURL')) {
-        define('WP_SITEURL', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
-    }
-    if (!defined('WP_HOME')) {
-        define('WP_HOME', $protocol . trim(WP_ENV_DOMAIN, '/') . $path);
     }
 
     // Define W3 Total Cache hostname
