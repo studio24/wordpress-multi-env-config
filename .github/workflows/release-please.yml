@@ -1,0 +1,32 @@
+name: release-please
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release
+        id: release
+        uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: simple
+          extra-files: |
+            wp-config.load.php
+
+        # Run only once a new release is created:
+      - uses: actions/checkout@master
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Create release files
+        run: |
+          zip -r wordpress-multi-env-config.zip wp-config.*
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Upload release files
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: ./wordpress-multi-env-config.zip
+          asset_name: wordpress-multi-env-config0.zip
+          tag: ${{ steps.release.outputs.tag_name }}
+          overwrite: true
+        if: ${{ steps.release.outputs.release_created }}
