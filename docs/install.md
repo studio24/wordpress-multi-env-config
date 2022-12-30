@@ -1,6 +1,6 @@
 # Installation
 
-Please note this requires PHP 5.6 or above. You should really be on PHP 7.4 at a minimum!
+Please note this requires PHP 7.3 or above. 
 
 1. Download the required files via [wordpress-multi-env-config.zip](https://github.com/studio24/wordpress-multi-env-config/releases/latest/download/wordpress-multi-env-config.zip)
 2. First make a backup of your existing `wp-config.php` file.

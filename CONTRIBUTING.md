@@ -17,6 +17,30 @@ All contributions must be made on a branch and must be merged into the main bran
 
 All Pull Requests need at least one approval from the Studio 24 development team.
 
+## Tests
+
+Simple PHPUnit tests can be added to the `tests/` folder. Please try to add tests for any future changes.
+
+## Continuous integration
+
+GitHub actions runs PHPUnit tests and PHPStan for code quality (checks `tests/*` and the `wp-config.load.php` file). You can set this up localy via:
+
+```
+composer install
+```
+
+Run PHPUnit via:
+
+```
+vendor/bin/phpunit
+```
+
+Run PHPStan via:
+
+```
+vendor/bin/phpstan analyse
+```
+
 ## Creating new releases
 
 This repo uses [Release Please](https://github.com/marketplace/actions/release-please-action) to automatically create releases, based on [semantic versioning](https://semver.org/).
