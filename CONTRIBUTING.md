@@ -21,7 +21,9 @@ All Pull Requests need at least one approval from the Studio 24 development team
 
 This repo uses [Release Please](https://github.com/marketplace/actions/release-please-action) to automatically create releases, based on [semantic versioning](https://semver.org/).
 
-To create a new release use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) in your commit message. This will automatically create a Release PR, which is kept up to date with further commits and you can merge it to create the new release when you are ready.
+To create a new release use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) in your commit message. 
+On merging new code to the `main` branch this will automatically create a release PR, which you can merge to create the 
+new release when you are ready.
 
 Use the following keywords in your commits:
 

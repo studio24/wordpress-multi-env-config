@@ -24,12 +24,12 @@ $env = [
     'production'  => [
         'domain' => 'domain.com',
         'path'   => '',
-        'ssl'    => false,
+        'ssl'    => true,
     ],
     'staging'     => [
         'domain' => 'staging.domain.com',
         'path'   => '',
-        'ssl'    => false,
+        'ssl'    => true,
     ],
     'development' => [
         'domain' => 'domain.local',
