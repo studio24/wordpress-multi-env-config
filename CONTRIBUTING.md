@@ -23,7 +23,8 @@ Simple PHPUnit tests can be added to the `tests/` folder. Please try to add test
 
 ## Continuous integration
 
-GitHub actions runs PHPUnit tests and PHPStan for code quality (checks `tests/*` and the `wp-config.load.php` file). You can set this up localy via:
+[GitHub actions](https://github.com/studio24/wordpress-multi-env-config/actions) runs PHPUnit tests and PHPStan for code 
+quality (checks `tests/*` and the `wp-config.load.php` file). You can set this up locally via:
 
 ```
 composer install
