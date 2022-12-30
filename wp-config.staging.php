@@ -19,7 +19,7 @@ define('DB_NAME', '');
 /** MySQL database username */
 define('DB_USER', '');
 
-/** MySQL database password - set in wp-config.local.php */
+/** MySQL database password - set in .wp-config.php */
 
 /**
  * For developers: WordPress debugging mode.

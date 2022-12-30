@@ -7,7 +7,7 @@
 
 
 /**
- * Define array of environment URLs
+ * Define array of environment settings
  *
  * Array of:
  * environment names =>
@@ -24,12 +24,12 @@ $env = [
     'production'  => [
         'domain' => 'domain.com',
         'path'   => '',
-        'ssl'    => false,
+        'ssl'    => true,
     ],
     'staging'     => [
         'domain' => 'staging.domain.com',
         'path'   => '',
-        'ssl'    => false,
+        'ssl'    => true,
     ],
     'development' => [
         'domain' => 'domain.local',

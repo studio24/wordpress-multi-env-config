@@ -17,11 +17,38 @@ All contributions must be made on a branch and must be merged into the main bran
 
 All Pull Requests need at least one approval from the Studio 24 development team.
 
+## Tests
+
+Simple PHPUnit tests can be added to the `tests/` folder. Please try to add tests for any future changes.
+
+## Continuous integration
+
+[GitHub actions](https://github.com/studio24/wordpress-multi-env-config/actions) runs PHPUnit tests and PHPStan for code 
+quality (checks `tests/*` and the `wp-config.load.php` file). You can set this up locally via:
+
+```
+composer install
+```
+
+Run PHPUnit via:
+
+```
+vendor/bin/phpunit
+```
+
+Run PHPStan via:
+
+```
+vendor/bin/phpstan analyse
+```
+
 ## Creating new releases
 
 This repo uses [Release Please](https://github.com/marketplace/actions/release-please-action) to automatically create releases, based on [semantic versioning](https://semver.org/).
 
-To create a new release use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) in your commit message. This will automatically create a Release PR, which is kept up to date with further commits and you can merge it to create the new release when you are ready.
+To create a new release use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) in your commit message. 
+On merging new code to the `main` branch this will automatically create a release PR, which you can merge to create the 
+new release when you are ready.
 
 Use the following keywords in your commits:
 

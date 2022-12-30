@@ -20,7 +20,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - name: Create release files
         run: |
-          zip -r wordpress-multi-env-config.zip wp-config.*
+          zip -r wordpress-multi-env-config.zip .wp-config.php wp-config.*
         if: ${{ steps.release.outputs.release_created }}
       - name: Upload release files
         uses: svenstaro/upload-release-action@v2
