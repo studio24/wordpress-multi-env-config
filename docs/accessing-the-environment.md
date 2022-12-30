@@ -13,6 +13,6 @@ documentation page.
 The following PHP constants are available for the current environment:
 
 * `WP_ENVIRONMENT_TYPE` - environment type
-* `WP_ENV_DOMAIN` - 
-* `WP_ENV_PATH` - 
-* `WP_ENV_SSL` - 
+* `WP_ENVIRONMENT_DOMAIN` - the environment hostname
+* `WP_ENVIRONMENT_PATH` - the path to the WordPress installation
+* `WP_ENVIRONMENT_SSL` - whether the current environment supports SSL

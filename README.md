@@ -10,6 +10,10 @@ WordPress sites.
 Credit is due to FocusLabs [EE Master Config](https://github.com/focuslabllc/ee-master-config)
 who gave me the inspiration for the organisation of the config files.
 
+## Requirements
+
+* PHP 7.3+
+
 ## Current version
 
 The current version is v3, see [upgrading from v2](docs/upgrading.md) for details on how to use the new version.

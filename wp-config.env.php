@@ -7,7 +7,7 @@
 
 
 /**
- * Define array of environment URLs
+ * Define array of environment settings
  *
  * Array of:
  * environment names =>

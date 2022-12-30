@@ -27,15 +27,16 @@ types in WordPress this has now changed to `WP_ENVIRONMENT_TYPE`
 
 1. Update your environment variable from `WP_ENV` to `WP_ENVIRONMENT_TYPE`
 
-### Renamed PHP constants
+### Removed custom PHP constants
 
-If you have any code that relies on the following PHP constants please update to the new value. You can also use 
-`wp_get_environment_type()` to return the current environment type.
+If you have any code that relies on the PHP constant `WP_ENV` please update to use `wp_get_environment_type()` to return 
+the current environment type.
 
-* `WP_ENV` to `WP_ENVIRONMENT_TYPE`
-* `WP_ENV_DOMAIN` to `WP_ENVIRONMENT_DOMAIN`
-* `WP_ENV_PATH` to `WP_ENVIRONMENT_PATH`
-* `WP_ENV_SSL` to `WP_ENVIRONMENT_SSL`
+The following custom PHP constants have been removed since they are no longer required:
+* `WP_ENV` 
+* `WP_ENV_DOMAIN`
+* `WP_ENV_PATH` 
+* `WP_ENV_SSL` 
 
 ### .env file
 

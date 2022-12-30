@@ -67,7 +67,7 @@ Example usage for using more than one domain for an environment.
     ],
 ```
 
-Example usage when using a wildcard for WordPress multi-site.
+Example usage when using a wildcard for WordPress multi-site. Please note the wildcard `*` must appear at the start of the domain string.
 
 ```
     'production'  => [
