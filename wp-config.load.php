@@ -43,10 +43,12 @@ function s24_load_environment_config() {
 
     // Define ENV from hostname
     if (!defined('WP_ENV')) {
-        if (isset($_SERVER['HTTP_X_FORWARDED_HOST']) && !empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-            $hostname = strtolower(filter_var($_SERVER['HTTP_X_FORWARDED_HOST'], FILTER_SANITIZE_STRING));
+        if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+            $hostname = strtolower(trim(strip_tags($_SERVER['HTTP_X_FORWARDED_HOST'])));
+        } elseif (!empty($_SERVER['HTTP_HOST'])) {
+            $hostname = strtolower(trim(strip_tags($_SERVER['HTTP_HOST'])));
         } else {
-            $hostname = strtolower(filter_var($_SERVER['HTTP_HOST'], FILTER_SANITIZE_STRING));
+            throw new Exception("Hostname is not available.");
         }
     }
 
