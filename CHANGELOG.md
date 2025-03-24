@@ -5,7 +5,8 @@
 
 ### Bug Fixes
 
-* PHP 8.1+ compatibility ([a7cc99f](https://github.com/studio24/wordpress-multi-env-config/commit/a7cc99f96d9cc0a2fe35aeec5c0482b21dd7d78e))
+* Replace deprecated FILTER_SANITIZE_STRING with strip_tags() for PHP 8.1+ compatibility ([f84c6d7](https://github.com/studio24/wordpress-multi-env-config/commit/f84c6d7a46329183c75a382a7e67a67b60812581))
+* Fix email in README ([a7cc99f](https://github.com/studio24/wordpress-multi-env-config/commit/a7cc99f96d9cc0a2fe35aeec5c0482b21dd7d78e))
 
 ## [2.0.1](https://github.com/studio24/wordpress-multi-env-config/compare/v2.0.0...v2.0.1) (2022-08-23)
 
