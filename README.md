@@ -11,7 +11,7 @@ Please note the current version is v2, if you need to use the older v1 version [
 
 ## Contributing
 
-Strata is an Open Source project. Find out more about how to [contribute](CONTRIBUTING.md).
+WordPress Multi-Environment Config is an Open Source project. Find out more about how to [contribute](CONTRIBUTING.md).
 
 ## Security Issues
 
