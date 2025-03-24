@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/studio24/wordpress-multi-env-config/compare/v2.0.1...v2.0.2) (2025-03-24)
+
+
+### Bug Fixes
+
+* PHP 8.1+ compatibility ([a7cc99f](https://github.com/studio24/wordpress-multi-env-config/commit/a7cc99f96d9cc0a2fe35aeec5c0482b21dd7d78e))
+
 ## [2.0.1](https://github.com/studio24/wordpress-multi-env-config/compare/v2.0.0...v2.0.1) (2022-08-23)
 
 
