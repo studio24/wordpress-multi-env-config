@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.3](https://github.com/studio24/wordpress-multi-env-config/compare/v2.0.2...v2.0.3) (2026-06-26)
+
+
+### Bug Fixes
+
+* set WP_ENVIRONMENT_TYPE ([e8960fb](https://github.com/studio24/wordpress-multi-env-config/commit/e8960fba2d27e782022f2fd27307fe9d10e315ae))
+
 ## [2.0.2](https://github.com/studio24/wordpress-multi-env-config/compare/v2.0.1...v2.0.2) (2025-03-24)
 
 
