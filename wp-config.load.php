@@ -162,6 +162,10 @@ function s24_load_environment_config() {
         define('COOKIE_DOMAIN', $hostname);
     }
 
+    // Set WP_ENVIRONMENT_TYPE
+    if (in_array(WP_ENV, ['local', 'development', 'staging', 'production'])) {
+        define('WP_ENVIRONMENT_TYPE', WP_ENV);
+    }
 }
 s24_load_environment_config();
 
