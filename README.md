@@ -58,6 +58,8 @@ This is commonly done via Apache in your virtual host declaration:
     
 If you don't use Apache consult your webserver documentation.
 
+Please note this package now sets `WP_ENVIRONMENT_TYPE` with the current environment, this is the PHP constant used in WordPress to return the current environment and is used by some plugins.
+
 ### Server hostname
 
 The current environment can also be detected from matching the hostname with the domain setup in `wp-config.env.php`.
